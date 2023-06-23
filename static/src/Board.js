@@ -33,6 +33,7 @@ export default class Board {
     renderBoard() {
         this.board.forEach((row, rowIndex) => {
             for (let column in row) {
+                column = parseInt(column);
                 if(row[column].tileId) {
                     this.renderTile(row, column, rowIndex);
                 }
@@ -85,7 +86,6 @@ export default class Board {
         piece.deSelectElement();
         if (!this.isValidPlaceToMove(tile.position[0], tile.position[1])) return false;
         if(!piece.isNotBackwardsMove(tile)) return false;
-
         // remove the mark from Board.board and put it in the new spot
         this.board[piece.position[0]][piece.position[1]].pieceId = null;
         this.board[tile.position[0]][tile.position[1]].pieceId = piece.pieceId;
@@ -190,6 +190,7 @@ export default class Board {
                 const piece = this.pieces.get(nextMove.pieceId);
                 const tile = this.tiles.get(nextMove.tileId);
                 this.movePiece(tile, piece);
+                this.playerTurn = 1;
             }
 
         } else {
