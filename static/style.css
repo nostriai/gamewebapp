@@ -163,6 +163,9 @@ div#board .tile {
   position: absolute;
   background-color: #232621;
 }
+div#board .tile.highlighted {
+  background-color: #16A8C7;
+}
 div#board .player1pieces .piece {
   position: absolute;
   width: 8vmin;

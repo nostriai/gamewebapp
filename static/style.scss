@@ -190,6 +190,9 @@ div#board {
     height: 10vmin;
     position: absolute;
     background-color: $dark;
+    &.highlighted {
+      background-color: $blue;
+    }
   }
 
   .player1pieces {

@@ -11,6 +11,7 @@ export default class Piece {
         // figure out player by piece id
         // makes object a king
         this.king = false;
+        this.validSpaces = [];
     }
     makeKing() {
         this.element.style.backgroundImage = "url('img/king" + this.player + ".png')";
