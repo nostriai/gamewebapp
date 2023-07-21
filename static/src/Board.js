@@ -203,13 +203,13 @@ export default class Board {
         if (this.playerTurn === 1) {
             this.playerTurn = 2;
             document.querySelector('.turn').style.background = 'linear-gradient(to right, transparent 50%, #BEEE62 50%)';
-            // let nextMove = await this.getNextTurn();
-            // if (nextMove) {
-            //     const piece = this.pieces.get(nextMove.pieceId);
-            //     const tile = this.tiles.get(nextMove.tileId);
-            //     this.movePiece(tile, piece);
-            //     this.playerTurn = 1;
-            // }
+            let nextMove = await this.getNextTurn();
+            if (nextMove) {
+                const piece = this.pieces.get(nextMove.pieceId);
+                const tile = this.tiles.get(nextMove.tileId);
+                this.movePiece(tile, piece);
+                this.playerTurn = 1;
+            }
 
         } else {
             this.playerTurn = 1;
