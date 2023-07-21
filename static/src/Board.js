@@ -281,10 +281,6 @@ export default class Board {
         let tileToChecky = parseInt(piece.position[0]) + dy / 2;
         if (tileToCheckx > 7 || tileToChecky > 7 || tileToCheckx < 0 || tileToChecky < 0) return false;
 
-        if(piece.pieceId === 9) {
-            console.log(this.isValidPlaceToMove(tileToChecky, tileToCheckx));
-            console.log(tileToChecky, tileToCheckx);
-        }
         if (!this.isValidPlaceToMove(tileToChecky, tileToCheckx)) {
             for (let pieceIndex = 1; pieceIndex <= this.pieces.size; pieceIndex++) {
                 if (this.pieces.get(pieceIndex).position[0] == tileToChecky && this.pieces.get(pieceIndex).position[1] == tileToCheckx){
