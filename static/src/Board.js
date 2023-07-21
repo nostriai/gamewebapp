@@ -78,7 +78,7 @@ export default class Board {
     }
 
     isValidPlaceToMove(row, column) {
-        if (!row || !column) return false;
+        if ((row !== 0 && !row)  || (column !== 0 && !column)) return false;
         if (row < 0 || row > 7 || column < 0 || column > 7) return false;
         if (this.board[row][column] && !this.board[row][column].pieceId) {
             return true;
@@ -216,6 +216,7 @@ export default class Board {
             document.querySelector('.turn').style.background = 'linear-gradient(to right, #BEEE62 50%, transparent 50%)';
         }
         this.checkIfJumpExists();
+        console.log(this.pieces.get(9));
     }
 
     clear() {
@@ -405,12 +406,24 @@ export default class Board {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(this.board)
+            body: JSON.stringify(this.generateBoardData())
         });
         if(nextMove) {
             return await nextMove.json();
         }
         return false;
+    }
+
+    generateBoardData() {
+        let boardData = structuredClone(this.board);
+        boardData.forEach((row) => {
+            row.forEach((tile) => {
+                if(tile.pieceId) {
+                    tile.piece = this.pieces.get(tile.pieceId);
+                }
+            });
+        });
+        return boardData;
     }
 }
 
