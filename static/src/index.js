@@ -1,4 +1,4 @@
-import Board from "./Board.js";
+import Coordinator from "./Coordinator.js";
 
-const board = new Board();
-board.initialize();
+const coordinator = new Coordinator();
+coordinator.setupNewGame();

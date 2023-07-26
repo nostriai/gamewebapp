@@ -1,44 +1,55 @@
 export default class Piece {
     constructor(pieceId, element, position, player) {
-        this.pieceId = pieceId;
+        this.id = pieceId;
         this.element = element;
         this.position = position;
-        // when jump exists, regular move is not allowed
-        // since there is no jump at round 1, all pieces are allowed to move initially
-        this.allowedtomove = true;
-        // which player's piece is it
         this.player = player;
-        // figure out player by piece id
-        // makes object a king
         this.king = false;
-        this.validSpaces = [];
-    }
-    makeKing() {
-        this.element.style.backgroundImage = "url('img/king" + this.player + ".png')";
-        this.king = true;
-    };
-
-    move(top, left) {
-        this.element.style.top = top;
-        this.element.style.left = left;
+        this.validMoves = [];
+        this.canJump = false;
     }
 
-    deSelectElement() {
-        this.element.classList.remove('selected');
-    }
-
-    selectElement() {
-        this.element.classList.add('selected');
-    }
-
-    isNotBackwardsMove(tile) {
-        if (this.player == 1 && this.king == false) {
-            if (tile.position[0] < this.position[0]) return false;
-        } else if (this.player == 2 && this.king == false) {
-            if (tile.position[0] > this.position[0]) return false;
+    calculateValidMoves(boardState) {
+        this.validMoves = [];
+        if (this.player === 1) {
+            this.checkForValidMoves(boardState, this.position[0] + 1, this.position[1] + 1);
+            this.checkForValidMoves(boardState, this.position[0] + 1, this.position[1] - 1);
+            if (this.king) {
+                this.checkForValidMoves(boardState, this.position[0] - 1, this.position[1] + 1);
+                this.checkForValidMoves(boardState, this.position[0] - 1, this.position[1] - 1);
+            }
         }
-        return true;
     }
 
+    checkForValidMoves(boardState, row, column)
+    {
+        if (row < 0 || row > 7 || column < 0 || column > 7) {
+            return;
+        }
+        if (boardState[row][column].pieceId) {
+            if (boardState[row][column].pieceId <= 12 && this.player === 1) {
+                return;
+            }
+            // if (boardState[row][column].pieceId < 13 && this.player === 2) {
+            //     this.canJump = true;
+            //     this.validMoves.push({
+            //         type: 'jump',
+            //         position: [row, column]
+            //     });
+            // }
+        }
+        this.validMoves.push({
+            type: 'regular',
+            position: [row, column]
+        });
+    }
+
+    invalidateNonJumpMoves() {
+        this.validMoves.forEach((move, index) => {
+            if(move.type !== 'jump') {
+                delete this.validMoves[index];
+            }
+        });
+    }
 
 }
