@@ -19,6 +19,14 @@ export default class Piece {
                 this.checkForValidMoves(boardState, this.position[0] - 1, this.position[1] - 1);
             }
         }
+        if (this.player === 2) {
+            this.checkForValidMoves(boardState, this.position[0] - 1, this.position[1] + 1);
+            this.checkForValidMoves(boardState, this.position[0] - 1, this.position[1] - 1);
+            if (this.king) {
+                this.checkForValidMoves(boardState, this.position[0] + 1, this.position[1] + 1);
+                this.checkForValidMoves(boardState, this.position[0] + 1, this.position[1] - 1);
+            }
+        }
     }
 
     checkForValidMoves(boardState, row, column)
