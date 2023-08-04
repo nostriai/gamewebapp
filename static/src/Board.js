@@ -2,7 +2,6 @@ import Piece from "./Piece.js";
 import Tile from "./Tile.js";
 
 export default class Board {
-    //@TODO KADA SE URADI JUMP I POJEDE UNSETUJ PIECEID ZA TO POLJE
     boardState = [
         [{}, {tileId: 1, pieceId: 1}, {}, {tileId: 2, pieceId: 2}, {}, {tileId: 3, pieceId: 3}, {}, {tileId: 4, pieceId: 4}],
         [{tileId: 5, pieceId: 5}, {}, {tileId: 6, pieceId: 6}, {}, {tileId: 7, pieceId: 7}, {}, {tileId: 8, pieceId: 8}, {}],
@@ -45,7 +44,7 @@ export default class Board {
         tileElement.style.top = this.tilesPositions[rowIndex];
         tileElement.style.left = this.tilesPositions[column];
         this.tilesContainer.appendChild(tileElement);
-        this.tiles.set(row[column].tileId, new Tile(tileElement, rowIndex, column));
+        this.tiles.set(row[column].tileId, new Tile(tileElement, rowIndex, column, this.eventEmitter));
     }
 
     renderPiece(row, column, rowIndex) {
@@ -60,12 +59,32 @@ export default class Board {
             row[column].pieceId,
             pieceElement,
             [rowIndex, column],
-            this.getPlayerByPieceId(row[column].pieceId)
+            this.getPlayerByPieceId(row[column].pieceId),
+            this.eventEmitter
         );
+        if(piece.id === 9) {
+            piece.king = true;
+        }
         this.pieces.set(row[column].pieceId, piece);
     }
 
     getPlayerByPieceId(pieceId) {
         return parseInt(pieceId) > 12 ? 2 : 1;
+    }
+
+    getSelectedPiece() {
+       return this.pieces.get(parseInt(document.querySelector('.piece.selected').id));
+    }
+
+    movePiece(piece) {
+        piece.element.style.top = this.tilesPositions[piece.position[0]];
+        piece.element.style.left = this.tilesPositions[piece.position[1]];
+        this.eventEmitter.emit('pieceMoved', piece);
+    }
+
+    removePiece(jumpedPieceId) {
+        let jumpedPiece = this.pieces.get(jumpedPieceId);
+        jumpedPiece.element.remove();
+        this.pieces.delete(jumpedPieceId);
     }
 }
