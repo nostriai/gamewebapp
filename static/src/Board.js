@@ -62,9 +62,6 @@ export default class Board {
             this.getPlayerByPieceId(row[column].pieceId),
             this.eventEmitter
         );
-        if(piece.id === 9) {
-            piece.king = true;
-        }
         this.pieces.set(row[column].pieceId, piece);
     }
 
