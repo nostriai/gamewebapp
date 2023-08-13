@@ -76,6 +76,7 @@ export default class Coordinator {
         } else {
             alert('It\'s a tie!');
         }
+        location.reload();
     }
 
     onPieceSelected() {
@@ -132,6 +133,9 @@ export default class Coordinator {
                 });
                 piece.calculateValidMoves(this.board.boardState, true);
                 if (piece.canJump) {
+                    if (this.playerTurn === 2) {
+                        this.askAiForMove();
+                    }
                     piece.highlightValidMoves();
                     return;
                 }
