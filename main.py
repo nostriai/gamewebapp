@@ -82,6 +82,10 @@ def format_board(board, player=2):
 
     return movable_pieces, valid_moves, board_state
 
+def id_to_loc(idx):
+    idx = 2 * idx
+    return np.unravel_index(idx, (8, 8))
+
 @api.post("/update-board-with-human-move")
 async def updateHumanMove(request: Request):
     board = await request.json()
