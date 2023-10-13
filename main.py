@@ -91,12 +91,13 @@ async def updateHumanMove(request: Request):
     board = await request.json()
 
     assert game_env.current_player(game_env.state) == 'player1'
-    move = board['last human move']
+    idx_move = board['last human move']
+    loc_move = [id_to_loc(idx) for idx in idx_move]
 
     legal_next_states = game_env.legal_next_states
     moves_list = states_to_piece_positions(legal_next_states)
     for idx, possible_move in enumerate(moves_list):
-        if move == possible_move:
+        if loc_move == possible_move:
             game_env.step(legal_next_states[idx])
             break
 
