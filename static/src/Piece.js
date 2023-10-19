@@ -9,6 +9,7 @@ export default class Piece {
         this.canJump = false;
         this.addClickEvent();
         this.eventEmitter = eventEmitter;
+        this.lastTileId = null;
     }
 
     calculateValidMoves(boardState, jumpOnly = false) {

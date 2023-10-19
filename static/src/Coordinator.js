@@ -110,6 +110,7 @@ export default class Coordinator {
         this.board.movePiece(piece);
     }
     updatePiecePosition(piece, tile) {
+        piece.lastTileId = this.board.boardState[piece.position[0]][piece.position[1]]['tileId'];
         this.board.boardState[piece.position[0]][piece.position[1]].pieceId = null;
         this.board.boardState[tile.position[0]][tile.position[1]].pieceId = piece.id;
         piece.position = tile.position;
@@ -140,9 +141,29 @@ export default class Coordinator {
                     return;
                 }
             }
+            if(this.playerTurn === 1) {
+                let oldTileId = piece.lastTileId
+                let newTileId = this.board.boardState[piece.position[0]][piece.position[1]]['tileId']
+                this.updateAIState(oldTileId, newTileId)
+            }
             this.changeTurn();
             piece.element.classList.remove('selected');
+        
         });
+    }
+
+    async updateAIState(oldTileId, newTileId){
+        let resp = await fetch('/api/update-board-with-human-move', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({oldTileId:oldTileId, newTileId:newTileId})
+        });
+        if(resp) {
+            return 'done'
+        }
+        return false;
     }
 
     changeTurn() {
@@ -172,7 +193,7 @@ export default class Coordinator {
     }
 
     async getNextTurn() {
-        let nextMove = await fetch('/api/get-next-move', {
+        let nextMove = await fetch('/api/get-ai-move', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

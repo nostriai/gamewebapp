@@ -62,6 +62,7 @@ export default class Board {
             this.getPlayerByPieceId(row[column].pieceId),
             this.eventEmitter
         );
+        piece.lastTileId = this.boardState[rowIndex][column]['tileId'];
         this.pieces.set(row[column].pieceId, piece);
     }
 
