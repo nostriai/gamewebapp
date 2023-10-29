@@ -22,12 +22,12 @@ ai_agent = RandomChoiceAgent()
 # %% Initialize game environment and MCTS class
 # Set MCTS parameters
 mcts_kwargs = {     # Parameters for MCTS used in tournament
-'NN_FN' : 'data/model/Checkers_Model10_12-Feb-2021(14:50:36).h5',
+'NN_FN' : None, # 'data/model/Checkers_Model10_12-Feb-2021(14:50:36).h5',
 'UCT_C' : 4,                # Constant C used to calculate UCT value
-'CONSTRAINT' : 'rollout',   # Constraint can be 'rollout' or 'time'
-'BUDGET' : 400,             # Maximum number of rollouts or time in seconds
+'CONSTRAINT' : 'time',   # Constraint can be 'rollout' or 'time'
+'BUDGET' : 5,             # Maximum number of rollouts or time in seconds
 'MULTIPROC' : False,        # Enable multiprocessing
-'NEURAL_NET' : False,        # If False uses random rollouts instead of NN
+'NEURAL_NET' : False,       # If False uses random rollouts instead of NN
 'VERBOSE' : False,          # MCTS prints search start/stop messages if True
 'TRAINING' : False,         # True if self-play, False if competitive play
 'DIRICHLET_ALPHA' : 1.0,    # Used to add noise to prior probs of actions
@@ -60,9 +60,6 @@ def format_board(board, player=2):
                         row_state.append(1)
                     
                     if len(piece['piece']['validMoves']) > 0:
-                        print(piece['pieceId'], len(piece['piece']['validMoves']))
-                        print(piece['piece']['validMoves'])
-
                         # in some cases element can be None, not sure why
                         moves = [element['tileId'] for element in piece['piece']['validMoves'] if element is not None]
 
@@ -83,8 +80,23 @@ def format_board(board, player=2):
     return movable_pieces, valid_moves, board_state
 
 def id_to_loc(idx):
-    idx = 2 * idx
-    return np.unravel_index(idx, (8, 8))
+    idx = 2 * idx - 1
+    row, col = np.unravel_index(idx, (8, 8))
+    row += 1
+    if row % 2:
+        col += 1
+    
+    return (row, col)
+
+def loc_to_id(loc):
+    row, col = loc
+    if row % 2:
+        col -= 1
+    row -= 1
+
+    indx = np.ravel_multi_index((row, col), (8, 8))
+
+    return int((indx + 1) // 2)
 
 @api.post("/update-board-with-human-move")
 async def updateHumanMove(request: Request):
@@ -93,37 +105,57 @@ async def updateHumanMove(request: Request):
     idx_move = [moves.get('oldTileId'), moves.get('newTileId')]
     loc_move = [id_to_loc(idx) for idx in idx_move]
     legal_next_states = game_env.legal_next_states
+    print(game_env.move_count)
     moves_list = states_to_piece_positions(game_env, legal_next_states)
     for idx, possible_move in enumerate(moves_list):
         if loc_move == possible_move:
+            print(game_env.current_player(game_env.state), 'move found')
             game_env.step(legal_next_states[idx])
             break
 
+    print(game_env.move_count)
+    assert game_env.current_player(game_env.state) == 'player2'
+
 @api.post("/get-ai-move")
 async def getAIMove(request: Request):
+    global best_child
     board = await request.json()
     # TODO: call the AI function here
 
-    # assert game_env.current_player(game_env.state) == 'player2'
-
     ai_player = 2
 
-    movable_pieces, valid_moves, board_state = format_board(board, player=ai_player)
+    assert game_env.current_player(game_env.state) == 'player2'
 
-    print(np.array(board_state).reshape(-1))
-
-    piece_id, tile_id = ai_agent.play(movable_pieces, valid_moves, board_state)
-    # game_env.print_board()
-
-    # if game_env.move_count == 1: # Initialize second player's MCTS node 
-    #     root_node = MCTS_Node(game_env.state, parent=None, initial_state=initial_state)
-    # else: # Update P2 root node with P1's move
-    #     root_node = MCTS.new_root_node(best_child)
+    game_env.print_board()
+    old_state = game_env.state
+    if game_env.move_count == 1: # Initialize second player's MCTS node 
+        root_node = MCTS_Node(old_state, parent=None, initial_state=initial_state)
+    else: # Update P2 root node with P1's move
+        root_node = MCTS.new_root_node(best_child)
     
-    # MCTS.begin_tree_search(root_node)
-    # best_child = MCTS.best_child(root_node)
-    # game_env.step(best_child.state)
+    MCTS.begin_tree_search(root_node)
     
+    best_child = MCTS.best_child(root_node)
+    moves_list = states_to_piece_positions(game_env, [best_child.state])[0]
+    game_env.step(best_child.state)
+
+    print(moves_list)
+
+    piece_tile_id =  loc_to_id(moves_list[0])
+    tile_id = loc_to_id(moves_list[1])
+
+    # find piece_id
+    
+    for row in board:
+        for piece in row:
+            if 'piece' in piece:
+                if piece['piece']['player'] == ai_player:
+                    if piece['tileId'] == piece_tile_id:
+                        piece_id = piece['pieceId']
+                        print(piece)
+
+    print(game_env.current_player(game_env.state))
+
     # response should look like this
     return {'pieceId': piece_id, 'tileId': tile_id}
 

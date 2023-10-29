@@ -21,10 +21,7 @@ def get_human_input(game_env):
             print('Invalid selection!  Try again!')
 
 def states_to_piece_positions(game_env, next_states):
-    """Given a list of next states, produce a list of two coordinates for each 
-    possible next state.  The first coordinate will be the location of the 
-    piece that was moved, and the second coordinate will be the location that 
-    the piece moved to.
+    """Given a list of next states, produce a list of two coordinates for each possible next state. The first coordinate will be the location of the piece that was moved, and the second coordinate will be the location that the piece moved to.
     """
     moves_list = []
     state = game_env.state
