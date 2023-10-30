@@ -13,9 +13,8 @@ from checkers.MCTS import MCTS_Node
 
 
 app = FastAPI()
-app.mount("/", StaticFiles(directory="static", html= True), name="static")
+app.mount("/game", StaticFiles(directory="static", html= True), name="static")
 # zasto dva puta definisemo fastapi?
-# jedan je da servira statiku a drugi je za api gde su nam komande za igranje igre
 api = FastAPI()
 
 ai_agent = RandomChoiceAgent()
@@ -166,5 +165,9 @@ async def resetBoardState(request: Request):
     best_child = None
     game_env.reset()
     return {'success': True}
+
+
+#Notes: 1. If ai has to play in a sequence it is not called again after the first move.
+#       2. Pions of player 1 can be kings for no reason.
 
 app.mount("/api", api)
