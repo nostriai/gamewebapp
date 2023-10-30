@@ -12,6 +12,7 @@ export default class Coordinator {
     playerTurn = 1;
 
     setupNewGame() {
+        this.clearAiState();
         this.addListeners();
         this.board.initBoard();
     }
@@ -216,5 +217,14 @@ export default class Coordinator {
             });
         });
         return boardData;
+    }
+
+    async clearAiState() {
+        let result = await fetch('/api/reset-board-state', {
+            method: 'GET',
+        });
+        if(!result) {
+             console.log('Error resetting AI state');
+        }
     }
 }
