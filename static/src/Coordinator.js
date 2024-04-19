@@ -154,7 +154,7 @@ export default class Coordinator {
     }
 
     async updateAIState(oldTileId, newTileId){
-        let resp = await fetch('/api/update-board-with-human-move', {
+        let resp = await fetch('/game/update-board-with-human-move', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -194,7 +194,7 @@ export default class Coordinator {
     }
 
     async getNextTurn() {
-        let nextMove = await fetch('/api/get-ai-move', {
+        let nextMove = await fetch('/game/get-ai-move', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -220,7 +220,7 @@ export default class Coordinator {
     }
 
     async clearAiState() {
-        let result = await fetch('/api/reset-board-state', {
+        let result = await fetch('/game/reset-board-state', {
             method: 'GET',
         });
         if(!result) {

@@ -13,9 +13,7 @@ from checkers.MCTS import MCTS_Node
 
 
 app = FastAPI()
-app.mount("/game", StaticFiles(directory="static", html= True), name="static")
-# zasto dva puta definisemo fastapi?
-api = FastAPI()
+
 
 ai_agent = RandomChoiceAgent()
 
@@ -98,7 +96,7 @@ def loc_to_id(loc):
 
     return int((indx + 1) // 2)
 
-@api.post("/update-board-with-human-move")
+@app.post("/game/update-board-with-human-move")
 async def updateHumanMove(request: Request):
     moves = await request.json()
     assert game_env.current_player(game_env.state) == 'player1'
@@ -116,7 +114,7 @@ async def updateHumanMove(request: Request):
     print(game_env.move_count)
     assert game_env.current_player(game_env.state) == 'player2'
 
-@api.post("/get-ai-move")
+@app.post("/game/get-ai-move")
 async def getAIMove(request: Request):
     global best_child
     board = await request.json()
@@ -159,7 +157,7 @@ async def getAIMove(request: Request):
     # response should look like this
     return {'pieceId': piece_id, 'tileId': tile_id}
 
-@api.get("/reset-board-state")
+@app.get("/game/reset-board-state")
 async def resetBoardState(request: Request):
     global best_child
     best_child = None
@@ -170,4 +168,5 @@ async def resetBoardState(request: Request):
 #Notes: 1. If ai has to play in a sequence it is not called again after the first move.
 #       2. Pions of player 1 can be kings for no reason.
 
-app.mount("/api", api)
+
+app.mount("/", StaticFiles(directory="static", html= True), name="static")

@@ -1,0 +1,10 @@
+{
+  "scripts": {
+    "build": "webpack"
+  },
+  "main": "src/index.js",
+  "devDependencies": {
+    "@nostr-dev-kit/ndk": "^2.7.1",
+    "webpack-cli": "^5.1.4"
+  }
+}
