@@ -1,10 +1,12 @@
 {
   "scripts": {
-    "build": "webpack"
+    "build": "webpack",
+    "watch": "watch 'npm run build' ./"
   },
-  "main": "src/index.js",
   "devDependencies": {
     "@nostr-dev-kit/ndk": "^2.7.1",
+    "watch": "^1.0.2",
     "webpack-cli": "^5.1.4"
   }
 }
+

@@ -1,20 +1,31 @@
 import Board from "./Board.js";
-import EventEmitter from "./EventEmitter.js";
+import EventEmitter from "../helpers/EventEmitter.js";
 
 export default class Coordinator {
 
     eventEmitter = new EventEmitter();
-    board = new Board(this.eventEmitter);
     score = {
         player1: 0,
         player2: 0
     };
     playerTurn = 1;
 
-    setupNewGame() {
+    async setupNewGame() {
+        await this.loadBoardHTML();
+        this.board = new Board(this.eventEmitter);
         this.clearAiState();
         this.addListeners();
         this.board.initBoard();
+    }
+
+
+    async loadBoardHTML() {
+        let boardHTML = await fetch('../static/templates/board.html');
+        if (boardHTML) {
+            let boardContainer = document.createElement('div');
+            boardContainer.innerHTML = await boardHTML.text();
+            document.body.appendChild(boardContainer);
+        }
     }
 
     addListeners() {

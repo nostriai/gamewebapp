@@ -37,18 +37,6 @@ html, body {
     color: $purple;
   }
 
-  h1 {
-    margin-top: 10px;
-  }
-
-  h2 {
-    font-size: 1.3em;
-  }
-
-  h3 {
-    font-size: 1.1em;
-  }
-
   a {
     text-decoration: none;
     color: $fontColor;
@@ -67,32 +55,23 @@ html, body {
       image: linear-gradient(to right, $fontColor, #ccc);
     }
   }
-
-  .clearfix {
-    clear: both;
-  }
 }
-
-div.column {
-  position: relative;
-  float: left;
-  overflow: auto;
-  height: 100%;
-  min-height: 100%;
-  width: 50%;
-
-  @media screen and (max-width: 1000px) {
-    width: 100% !important;
-    overflow: hidden;
-    height: auto;
+.row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  width: 100%;
+  margin: 0 0 2rem 0;
+  padding: 0;
+  &.center {
+    justify-content: center;
   }
 }
 
 %info-styles {
-  width: 70%;
-  margin: 13vmin auto 0;
+  width: 80%;
   box-sizing: border-box;
-  padding: 20px 30px;
+  padding: 0.3rem 0.6rem;
   background-color: $light;
   color: $purple;
   border-radius: 3px;
@@ -105,16 +84,12 @@ div.info {
 
 div.stats {
   @extend %info-styles;
-  margin: 50px auto !important;
 
   @mixin div-style($bgColor) {
     text-align: center;
     display: inline-block;
-    width: 50%;
-    float: left;
     background-color: $bgColor;
     box-sizing: border-box;
-    padding: 0 15px 20px;
   }
 
   .wrapper {
@@ -125,6 +100,7 @@ div.stats {
     @include div-style($red);
     border-top-left-radius: 3px;
     color: $dark;
+    flex-grow: 50;
 
     .capturedPiece {
       @include gamePiece($dark, 0.3);
@@ -136,6 +112,7 @@ div.stats {
     @include div-style($dark);
     border-top-right-radius: 3px;
     color: $red;
+    flex-grow: 50;
 
     .capturedPiece {
       @include gamePiece($red, 0.3);
@@ -175,15 +152,13 @@ div.stats {
 }
 
 div#board {
-  position: absolute;
-  top: calc(50% - 40vmin);
-  left: calc(50% - 40vmin);
   width: 80vmin;
   height: 80vmin;
   border-radius: 5px;
   box-shadow: $shadow;
   background-color: $red;
-  overflow: hidden; // to maintain rounded corners
+  overflow: hidden;
+  position: relative;
 
   .tile {
     width: 10vmin;
@@ -228,14 +203,15 @@ div#board {
 
 #profileInfo{
   display: flex;
-  flex-direction: column;
-  margin-top: 20px;
   color:white;
+  gap: 0.5rem;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 1rem;
   img{
     width: 50px;
     height: 50px;
-  }
-  h3{
-    font-size: 1.5em;
+    border-radius: 50%;
+    border:0.5px solid white;
   }
 }

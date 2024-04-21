@@ -1,17 +1,16 @@
-import Coordinator from "./Coordinator.js";
+import Coordinator from "./src/checkers/Coordinator.js";
 import NDK from "@nostr-dev-kit/ndk";
 const ndk = new NDK({
     explicitRelayUrls: ["wss://nostr.donky.social", "wss://nostr.huszonegy.world"],
 });
 
 const coordinator = new Coordinator();
-coordinator.setupNewGame();
+await coordinator.setupNewGame();
 await ndk.connect();
 const user = ndk.getUser({
     npub: 'npub14uf9m3wsfpwpk9znef849pzxysylz8krhfj6d3c3vqa9kewqdkhs3nf7qs'
 });
 await user.fetchProfile();
-console.log(user);
 let profileContainer = document.getElementById('profileInfo');
 let profileName = document.createElement('h1');
 profileName.innerHTML = "Hello, " + user.profile.name;

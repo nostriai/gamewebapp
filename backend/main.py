@@ -169,4 +169,4 @@ async def resetBoardState(request: Request):
 #       2. Pions of player 1 can be kings for no reason.
 
 
-app.mount("/", StaticFiles(directory="static", html= True), name="static")
+app.mount("/", StaticFiles(directory="../frontend", html= True), name="static")
