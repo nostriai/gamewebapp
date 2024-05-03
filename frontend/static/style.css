@@ -181,17 +181,27 @@ div#board .player2pieces .piece.selected {
   box-shadow: 0 0 10px 5px #16A8C7;
 }
 
-#profileInfo {
-  display: flex;
-  color: white;
-  gap: 0.5rem;
-  align-items: center;
-  justify-content: flex-end;
-  padding-right: 1rem;
+#profileInfo #connectButton {
+  display: block;
+  border: 0;
+  color: #F1F1FF;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 1rem;
+  padding: 0.7rem;
+  box-shadow: 1px 1px 3px #232621;
+  background-color: #232621;
+  font-size: 1.5rem;
 }
-#profileInfo img {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  border: 0.5px solid white;
+#profileInfo #connectButton:hover {
+  background-color: #6b202a;
+}
+#profileInfo #npubInfo {
+  display: block;
+  margin: 1rem;
+  padding: 0.7rem;
+  background-color: #232621;
+  color: #F1F1FF;
+  border-radius: 5px;
+  box-shadow: 1px 1px 3px #232621;
 }/*# sourceMappingURL=style.css.map */

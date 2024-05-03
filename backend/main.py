@@ -1,9 +1,10 @@
 import sys
 import numpy as np
 
-from fastapi import Request, FastAPI
+from fastapi import Request, FastAPI, responses
 from fastapi.staticfiles import StaticFiles
 from agents import RandomChoiceAgent
+from starlette.responses import FileResponse 
 
 from utils import states_to_piece_positions
 
@@ -14,6 +15,10 @@ from checkers.MCTS import MCTS_Node
 
 app = FastAPI()
 
+# we route app trough js so every request that is not found will be redirected to index.html
+@app.exception_handler(404)
+async def custom_404_handler(_, __):
+    return FileResponse('../frontend/index.html')
 
 ai_agent = RandomChoiceAgent()
 
@@ -163,10 +168,5 @@ async def resetBoardState(request: Request):
     best_child = None
     game_env.reset()
     return {'success': True}
-
-
-#Notes: 1. If ai has to play in a sequence it is not called again after the first move.
-#       2. Pions of player 1 can be kings for no reason.
-
 
 app.mount("/", StaticFiles(directory="../frontend", html= True), name="static")
