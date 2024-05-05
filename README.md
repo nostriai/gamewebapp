@@ -10,5 +10,5 @@ uvicorn main:app --reload
 # running with watcher
 ```bash
 uvicorn main:app --reload --reload-include="*.html" --reload-include="*.css" --reload-include="*.js"
-browser-sync 'http://localhost:8000' 'static' --watch --files
+browser-sync 'http://localhost:8000' 'frontend' --watch --files
 ```

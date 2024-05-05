@@ -3,6 +3,7 @@ import NDK, {NDKNip07Signer} from "@nostr-dev-kit/ndk";
 import UserService from "./src/user/UserService.js";
 import Home from "./src/controllers/Home.js";
 import Router from "./src/router/Router.js";
+import TurnHistory from "./src/controllers/TurnHistory.js";
 try {
     const nip07signer = new NDKNip07Signer();
     const ndk = new NDK({
@@ -12,10 +13,11 @@ try {
     await ndk.connect();
     
     window.userService = new UserService(nip07signer, ndk);
-    window.userService.login();
+    await window.userService.login();
 
     const routes = {
         '/': Home,
+        '/turn-history': TurnHistory,
     };
     window.router = new Router(routes);
     await window.router.resolve();

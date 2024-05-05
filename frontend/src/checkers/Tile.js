@@ -1,4 +1,5 @@
 export default class Tile {
+    
     constructor(tileElement, row, column, eventEmitter) {
         this.element = tileElement;
         this.position = [parseInt(row), parseInt(column)];
