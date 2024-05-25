@@ -3,12 +3,11 @@ Proof of concept for federated training of AI for video games
 
 
 # running
+From backend folder for dev purposes run
 ```bash
-uvicorn main:app --reload
+fastapi dev main.py
 ```
-
-# running with watcher
+For production use run
 ```bash
-uvicorn main:app --reload --reload-include="*.html" --reload-include="*.css" --reload-include="*.js"
-browser-sync 'http://localhost:8000' 'frontend' --watch --files
+fastapi run main.py
 ```
