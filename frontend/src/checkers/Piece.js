@@ -123,7 +123,7 @@ export default class Piece {
     }
 
     makeKing() {
-        this.element.style.backgroundImage = "url('img/king" + this.player + ".png')";
+        this.element.style.backgroundImage = "url('/static/img/king" + this.player + ".png')";
         this.king = true;
     };
 }
