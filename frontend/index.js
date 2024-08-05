@@ -4,6 +4,7 @@ import UserService from "./src/user/UserService.js";
 import Home from "./src/controllers/Home.js";
 import Router from "./src/router/Router.js";
 import TurnHistory from "./src/controllers/TurnHistory.js";
+import Training from "./src/controllers/Training.js";
 try {
     const nip07signer = new NDKNip07Signer();
     const ndk = new NDK({
@@ -18,6 +19,7 @@ try {
     const routes = {
         '/': Home,
         '/turn-history': TurnHistory,
+        '/training': Training
     };
     window.router = new Router(routes);
     await window.router.resolve();

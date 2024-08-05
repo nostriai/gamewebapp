@@ -110,6 +110,9 @@ export default class Piece {
         this.element.addEventListener('click', () => {
             this.eventEmitter.emit('pieceSelected');
             if(this.validMoves.length === 0) { return; }
+            if(this.player !== 1) { // Don't allow the player to click on AI pieces
+                return;
+            }
             this.element.classList.add('selected');
             this.highlightValidMoves();
         });
