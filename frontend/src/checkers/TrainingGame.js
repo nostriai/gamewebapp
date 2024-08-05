@@ -8,6 +8,14 @@ export default class TrainingGame {
         player2: 0
     };
     playerTurn = 1;
+    player1;
+    player2;
+    history = '';
+
+    constructor(player1, player2) {
+        this.player1 = player1;
+        this.player2 = player2;
+    }
 
     async setupNewGame() {
         await this.loadBoardHTML();
@@ -26,6 +34,7 @@ export default class TrainingGame {
         piece.element.style.left = this.board.tilesPositions[piece.position[1]];
         await this.updateAIState(9, 14);
         this.changeTurn();
+        this.history += '9-14\n';
         await this.askAiForMove();
     }
 
@@ -84,6 +93,7 @@ export default class TrainingGame {
             }
         });
         if (end) {
+            void window.userService.sendPrivateMessageToSelf(this.history);
             this.gameOver();
         }
     }
@@ -167,7 +177,7 @@ export default class TrainingGame {
             const piece = this.board.pieces.get(nextMove.pieceId);
             const tile = this.board.tiles.get(nextMove.tileId);
             this.movePiece(piece, tile);
-            window.userService.sendPrivateMessageToSelf("Ai moved piece with id: " + piece.id + " to tile with coordinates: " + tile.position[0] + ", "+tile.position[1]);
+            this.history += piece.lastTileId + '-' + nextMove.tileId + '\n';
         }
     }
 

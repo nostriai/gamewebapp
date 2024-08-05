@@ -33,10 +33,10 @@ export default class User {
         event.content = message;
         event.tags = [['p', this.user.pubkey]];
         await event.encrypt(this.user, this.signer)
-        event.publish();
+        await event.publish();
     }
 
-    async fetchMessages(){
+    async fetchMessagesForSelf(){
         const filter = {kinds: [NDKKind.EncryptedDirectMessage], authors: [this.user.pubkey]};
         const events = await this.connection.fetchEvents(filter);
         for(const event of events){

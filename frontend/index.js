@@ -8,7 +8,8 @@ import Training from "./src/controllers/Training.js";
 try {
     const nip07signer = new NDKNip07Signer();
     const ndk = new NDK({
-        explicitRelayUrls: ["ws:/localos.synology.me:7777"],
+        // explicitRelayUrls: ["ws:/localos.synology.me:7777"],
+        explicitRelayUrls: ["wss://relay.nostrdice.com:443"],
         signer: nip07signer
     });
     await ndk.connect();

@@ -31,15 +31,16 @@ html hr, body hr {
   align-items: flex-start;
   justify-content: space-between;
   width: 100%;
-  margin: 0 0 2rem 0;
-  padding: 0;
+  margin: 0 0 1rem 0;
+  padding: 5px 0 0 0;
 }
 .row.center {
   justify-content: center;
 }
 
 div.stats, div.info {
-  width: 80%;
+  width: 400px;
+  max-width: 100%;
   box-sizing: border-box;
   padding: 0.3rem 0.6rem;
   background-color: #F1F1FF;
@@ -49,7 +50,8 @@ div.stats, div.info {
 }
 
 div.stats .wrapper {
-  display: flex; /* for equal height columns */
+  display: flex;
+  /* for equal height columns */
 }
 div.stats #player1 {
   text-align: center;
@@ -59,6 +61,7 @@ div.stats #player1 {
   border-top-left-radius: 3px;
   color: #232621;
   flex-grow: 50;
+  min-height: 55px;
 }
 div.stats #player1 .capturedPiece {
   width: 2.4vmin;
@@ -71,7 +74,13 @@ div.stats #player1 .capturedPiece {
   display: inline-block;
   box-sizing: border-box;
   transition: all 0.2s linear;
+  width: 10px;
+  height: 10px;
   margin: 5px;
+}
+div.stats #player1 h3 {
+  font-size: 1rem;
+  margin: 5px 0;
 }
 div.stats #player2 {
   text-align: center;
@@ -81,6 +90,11 @@ div.stats #player2 {
   border-top-right-radius: 3px;
   color: #B93848;
   flex-grow: 50;
+  min-height: 55px;
+}
+div.stats #player2 h3 {
+  font-size: 1rem;
+  margin: 5px 0;
 }
 div.stats #player2 .capturedPiece {
   width: 2.4vmin;
@@ -93,10 +107,12 @@ div.stats #player2 .capturedPiece {
   display: inline-block;
   box-sizing: border-box;
   transition: all 0.2s linear;
+  width: 10px;
+  height: 10px;
   margin: 5px;
 }
 div.stats div.turn {
-  height: 10px;
+  height: 5px;
   width: 100%;
   background: linear-gradient(to right, #BEEE62 50%, transparent 50%);
   border-radius: 0 0 3px 3px;
@@ -112,14 +128,17 @@ div.stats button#cleargame {
   color: #F1F1FF;
   border-radius: 5px;
   cursor: pointer;
-  margin: 20px auto 10px;
-  padding: 10px;
+  margin: 5px auto 5px;
+  padding: 7px;
   background-color: #16A8C7;
   box-shadow: 1px 1px 3px #232621;
   transition: background-color 0.15s linear;
 }
 div.stats button#cleargame:hover {
   background-color: #0c5a6b;
+}
+div.stats h2 {
+  font-size: 1rem;
 }
 
 div#board {
@@ -204,4 +223,6 @@ div#board .player2pieces .piece.selected {
   color: #F1F1FF;
   border-radius: 5px;
   box-shadow: 1px 1px 3px #232621;
-}/*# sourceMappingURL=style.css.map */
+}
+
+/*# sourceMappingURL=style.css.map */

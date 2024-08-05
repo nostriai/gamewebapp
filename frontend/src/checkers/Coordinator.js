@@ -113,7 +113,6 @@ export default class Coordinator {
             }
             const piece = this.board.getSelectedPiece();
             this.movePiece(piece, tile);
-            window.userService.sendPrivateMessageToSelf("Player moved piece with id: " + piece.id + " to tile with coordinates: " + tile.position[0] + ", "+tile.position[1]);
         });
     }
 
@@ -202,7 +201,6 @@ export default class Coordinator {
             const piece = this.board.pieces.get(nextMove.pieceId);
             const tile = this.board.tiles.get(nextMove.tileId);
             this.movePiece(piece, tile);
-            window.userService.sendPrivateMessageToSelf("Ai moved piece with id: " + piece.id + " to tile with coordinates: " + tile.position[0] + ", "+tile.position[1]);
         }
     }
 

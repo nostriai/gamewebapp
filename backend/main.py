@@ -51,6 +51,17 @@ async def getAIMove(request: Request):
     return {'pieceId': pieceId, 'tileId': data['tileId']}
 
 
+@app.post("/game/log-training-users")
+async def logTrainingUsers(request: Request):
+    data = await request.json()
+    player1 = data['player1']
+    player2 = data['player2']
+    date = data['date']
+    with open('training_users.txt', 'a') as f:
+        f.write(f'{player1} vs {player2} on {date}\n')
+    return {'success': True}
+
+
 @app.post("/game/update-board-with-human-move")
 async def updateHumanMove(request: Request):
     moves = await request.json()

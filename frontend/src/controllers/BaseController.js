@@ -5,8 +5,7 @@ export default class BaseController {
     }
 
     async render() {
-        const template = await this.getTemplate(this.baseRenderTpl);
-        document.body.innerHTML = template;
+        throw new Error('Render method not implemented');
     }
 
     async getTemplate(path){
