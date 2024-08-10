@@ -1,6 +1,8 @@
 import BaseController from './BaseController.js';
 import TrainingGame from "../checkers/TrainingGame.js";
 import { generateSecretKey, getPublicKey} from "nostr-tools/pure";
+import { bytesToHex, hexToBytes } from '@noble/hashes/utils'
+import {NDKUser} from "@nostr-dev-kit/ndk";
 
 export default class Training extends BaseController {
     async render() {
@@ -13,15 +15,17 @@ export default class Training extends BaseController {
             },
             body: JSON.stringify({player1: player1, player2: player2, date: this.getCurrentDateTime()})
         })
-        const game = new TrainingGame(player1, player2);
+        const game = new TrainingGame(player1.ndkUser, player2.ndkUser);
         await game.setupNewGame();
     }
 
 
     createUser() {
+        const secretKey = generateSecretKey();
+        const publicKey = getPublicKey(secretKey);
         return {
-            publicKey: 'somePublicKey',
-            privateKey: 'somePrivateKey',
+            ndkUser: new NDKUser({pubkey: publicKey}),
+            privateKey: bytesToHex(secretKey),
         }
     }
 
