@@ -9,6 +9,7 @@ export default class Tile {
 
     addClickEvent() {
         this.element.addEventListener('click', () => {
+        console.log(this.element.id)
             this.eventEmitter.emit('tileClicked', this);
         });
     }

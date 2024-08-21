@@ -53,3 +53,6 @@ coverage.xml
 docs/_build/
 
 backend/training_users.txt
+backend/training_users_raw.txt
+
+backend/test.py

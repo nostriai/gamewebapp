@@ -3,6 +3,7 @@ from checkers.MCTS import MCTS
 from checkers.MCTS import MCTS_Node
 from checkers.src.Player import Player
 from checkers.src.PlayerName import PlayerName
+from checkers.src.History import History
 
 class Game:
     def __init__(self, player1: Player, player2: Player):
@@ -14,6 +15,7 @@ class Game:
         self.bestChild = None
         self.setupComplete = False
         self.playersMove = PlayerName.PLAYER_1
+        self.history = History()
         self.__setup()
 
     def __setup(self):
@@ -50,8 +52,10 @@ class Game:
         player = self.getPlayerByName(name)
         if player is not None:
             player.move(oldTileId, tileId, self.gameEnv)
+            self.history.push(oldTileId, tileId)
             self.gameEnv.print_board()
-            self.switchPlayersMove()
+            if self.gameEnv.current_player(self.gameEnv.state) != name.value:
+                self.switchPlayersMove()
 
     def makeAIMove(self, name:PlayerName):
         assert self.gameEnv.current_player(self.gameEnv.state) == name.value
@@ -60,7 +64,9 @@ class Game:
             data = player.makeAIMove(self.bestChild, self.gameEnv, self.MCTS, MCTS_Node, self.initialState)
             self.gameEnv.print_board()
             self.bestChild = data['bestChild']
-            self.switchPlayersMove()
+            if self.gameEnv.current_player(self.gameEnv.state) != name.value:
+                self.switchPlayersMove()
+            self.history.push(data['pieceTileId'], data['tileId'])
             return {'pieceTileId': data['pieceTileId'], 'tileId': data['tileId']}
 
 
