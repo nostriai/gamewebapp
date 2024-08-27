@@ -37,12 +37,15 @@ class User:
         await self.client.add_relay(relay)
         await self.client.connect()
 
+        messages = []
+
         source = EventSource.relays()
         filter = Filter().kind(Kind(4)).pubkey(self.pubkey)
         events = await self.client.get_events_of([filter], source)
         for event in events:
             decryptedMessage = nip04_decrypt(self.secret, event.author(), event.content())
-            print(decryptedMessage)
+            messages.append(decryptedMessage)
+        return messages
 
     def getPublicKeyHex(self):
         return self.pubkey.to_hex()
