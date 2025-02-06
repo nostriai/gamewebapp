@@ -1,0 +1,14 @@
+name: fastapi_env
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.11.9
+  - fastapi=0.111.0
+  - uvicorn=0.29.0
+  - pydantic=2.7.1
+  - sqlalchemy
+  - requests=2.32.2
+  - pip
+  - pip:
+      - nostr-sdk==0.34.0

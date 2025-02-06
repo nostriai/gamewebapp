@@ -1,10 +1,10 @@
 // import Coordinator from "./src/checkers/Coordinator.js";
 import NDK, {NDKNip07Signer} from "@nostr-dev-kit/ndk";
-import UserService from "./src/user/UserService.js";
-import Home from "./src/controllers/Home.js";
-import Router from "./src/router/Router.js";
-import TurnHistory from "./src/controllers/TurnHistory.js";
-import Training from "./src/controllers/Training.js";
+import UserService from "/user/UserService.js";
+import Home from "/controllers/Home.js";
+import Router from "/router/Router.js";
+import TurnHistory from "/controllers/TurnHistory.js";
+import Training from "/controllers/Training.js";
 try {
     const nip07signer = new NDKNip07Signer();
     const ndk = new NDK({

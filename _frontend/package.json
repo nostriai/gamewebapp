@@ -1,0 +1,23 @@
+{
+  "name": "nostri-front",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "sass": "^1.84.0",
+    "vite": "^6.1.0"
+  },
+  "dependencies": {
+    "@nostr-dev-kit/ndk": "^2.11.0",
+    "@nostrify/nostrify": "npm:@jsr/nostrify__nostrify@^0.38.1",
+    "@popperjs/core": "^2.11.8",
+    "bootstrap": "^5.3.3",
+    "jsr": "^0.13.3",
+    "nostr-tools": "^2.5.2"
+  }
+}

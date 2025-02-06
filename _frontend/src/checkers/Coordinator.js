@@ -11,6 +11,7 @@ export default class Coordinator {
     playerTurn = 1;
 
     async setupNewGame() {
+        this.apiUrl = import.meta.env.VITE_API_URL;
         await this.loadBoardHTML();
         this.board = new Board(this.eventEmitter);
         this.clearAiState();
@@ -165,7 +166,7 @@ export default class Coordinator {
     }
 
     async updateAIState(oldTileId, newTileId){
-        let resp = await fetch('/game/update-board-with-human-move', {
+        let resp = await fetch(this.apiUrl + '/game/update-board-with-human-move', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -205,7 +206,7 @@ export default class Coordinator {
     }
 
     async getNextTurn() {
-        let nextMove = await fetch('/game/get-ai-move', {
+        let nextMove = await fetch(this.apiUrl + '/game/get-ai-move', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -231,7 +232,7 @@ export default class Coordinator {
     }
 
     async clearAiState() {
-        let result = await fetch('/game/reset-board-state', {
+        let result = await fetch(this.apiUrl + '/game/reset-board-state', {
             method: 'GET',
         });
         if(!result) {
