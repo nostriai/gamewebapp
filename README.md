@@ -1,26 +1,53 @@
-# gamewebapp
-Proof of concept for federated training of AI for video games
+# PGX Web
 
+A web-based frontend for the PGX (Pgx Game Simulator) package. This application provides a user-friendly interface to play games against AI opponents powered by JAX through the PGX library.
 
-# running
-From backend folder for dev purposes run
+## Features
+
+- Play Tic-Tac-Toe and Go against AI opponents
+- Multiple AI difficulty levels
+- Responsive web interface
+- Leverages the original PGX game logic written in JAX
+
+## Requirements
+
+- Python 3.9+
+- JAX and JAXlib installed for your hardware
+- PGX library
+- FastAPI
+- Uvicorn
+- Additional Python dependencies listed in requirements.txt
+
+## Installation
+
+1. Clone this repository
+2. Install dependencies:
 ```bash
-fastapi dev main.py
+pip install -r requirements.txt
 ```
-For production use run
+
+## Running the Application
+
+Start the server:
 ```bash
-fastapi run main.py
+python -m backend.app
 ```
 
+Then open your browser and navigate to `http://localhost:8000`
 
-# Testing the training session
+## Available Games
 
-To test the training session, run trainingRaw.py
+- Tic-Tac-Toe (`tic_tac_toe`)
+- Go 9x9 (`go_9x9`)
+- Go 19x19 (`go_19x19`)
 
-This will create a training session with 2 players.
+## Architecture
 
-The nostr keys are generated for the players automatically.
+This application follows a client-server architecture:
 
-Upon completion of the game, the keys of the players will be stored in training_users.raw.txt and the game data will be sent to both users on the network.
+- Backend: FastAPI REST API that interfaces with PGX game logic
+- Frontend: HTML/CSS/JavaScript web interface
 
-You can use these keys to test the game data retrieval by running fetchMessages.py with the flags --pubkey and --secret which you have in the traning_users.raw.txt file (you can choose either user1 or user2)
+## License
+
+This project is licensed under the Apache License 2.0.
